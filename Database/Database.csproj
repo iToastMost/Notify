@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>ClassLibrary1</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Dapper" Version="2.1.79" />
+      <PackageReference Include="Microsoft.Data.Sqlite" Version="11.0.0-preview.5.26302.115" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Notify\Notify.csproj" />
+    </ItemGroup>
+
+</Project>

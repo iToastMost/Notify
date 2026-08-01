@@ -1,0 +1,44 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Notify.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Notify.Classes"
+        mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="750"
+        x:Class="Notify.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Notify">
+    
+    <StackPanel>
+        <TextBox Text="{Binding searchBoxText}" x:Name="SearchBox" HorizontalAlignment="Center" PlaceholderText="Enter a Song, Album or Artist!"></TextBox>
+        <Button Command="{Binding SearchClickedCommand}" HorizontalAlignment="Center">Search</Button>
+        <Grid HorizontalAlignment="Center" RowDefinitions="500">
+            <ListBox ItemsSource="{Binding Items}" Width="1000" x:Name="Music" HorizontalAlignment="Center" SelectionChanged="ItemSelected" SelectedIndex="{Binding SelectedIdx}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" >
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{Binding AlbumCover}" Width="180" Height="180" Margin="20"></Image>
+                            <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding SongName}"></TextBlock>
+                                <TextBlock Text="{Binding ArtistName}"></TextBlock>
+                                <TextBlock Text="{Binding AlbumName}"></TextBlock>
+                                <TextBlock Text="{Binding Duration}"></TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+        <Grid Margin="5" ColumnDefinitions="100, 120,*" RowDefinitions="Auto, Auto" HorizontalAlignment="Center">
+            <Button Grid.Row="1" Grid.Column="0" CornerRadius="100" Command="{Binding BackClickCommand}">Back</Button>
+            <Button Grid.Row="1"  Grid.Column="1" CornerRadius="100" Command="{Binding PlayPauseClickCommand}"> Play</Button>
+            <Button Grid.Row="1"  Grid.Column="2" CornerRadius="100" Command="{Binding ForwardClickCommand}">Forward</Button>
+        </Grid>
+        <TextBlock Name="SelectedFile" HorizontalAlignment="Center">Current Song</TextBlock>
+        <Button Command="{Binding TestAPICommandCommand}" HorizontalAlignment="Center"></Button>
+    </StackPanel>
+    
+    
+
+</Window>
