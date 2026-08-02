@@ -39,7 +39,7 @@ public partial class MainWindowViewModel : ViewModelBase
     private object? _selectedItem;
     
     private HttpClient _httpClient = new HttpClient();
-    private string _url = "http://localhost:5272";
+    private string _url = "http://192.168.1.45:5272";
     
 
     public object SelectedItem
@@ -162,8 +162,10 @@ public partial class MainWindowViewModel : ViewModelBase
 
     public async Task LoadFolderAsync(IStorageProvider storageProvider)
     {
-        var folder = await storageProvider.TryGetFolderFromPathAsync(new Uri(
-            "file:///C:\\Users\\Chevr\\OneDrive\\Documents\\Soulseek Downloads\\complete"));
+        // var folder = await storageProvider.TryGetFolderFromPathAsync(new Uri(
+        //     "/home/notifyserver/media/music/complete"));
+
+        var folder = await _httpClient.GetFromJsonAsync<List<Song>>(_url + "/");
         
         if (folder != null)
             await LoadSongsAsync(folder);

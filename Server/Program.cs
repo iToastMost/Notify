@@ -5,6 +5,8 @@ using Notify.Data;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<DatabaseConnection>(new DatabaseConnection());
 
+builder.WebHost.UseUrls("http://0.0.0.0:5272");
+
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -48,10 +50,19 @@ app.MapGet("/searchSong/{songName}", (string songName, DatabaseConnection db) =>
     return TypedResults.Ok(song);
 });
 
-app.MapGet("/", (DatabaseConnection db) =>
+app.MapGet("/music", (DatabaseConnection db) =>
 {
     return db.GetSongs();
 });
+
+app.MapGet("/", () =>
+{
+    var path = "home/notifyserver/media/music/complete";
+    
+    var files = Directory.GetFiles(path);
+    
+    return Results.Ok(files);
+}); 
 
 app.Run();
 
