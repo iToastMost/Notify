@@ -167,8 +167,8 @@ public partial class MainWindowViewModel : ViewModelBase
 
         var folder = await _httpClient.GetFromJsonAsync<List<Song>>(_url + "/");
         
-        if (folder != null)
-            await LoadSongsAsync(folder);
+        // if (folder != null)
+        //     await LoadSongsAsync(folder);
     }
 
     public async Task LoadSongsAsync(IStorageFolder folder)

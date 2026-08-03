@@ -62,7 +62,20 @@ app.MapGet("/", () =>
     var files = Directory.GetFiles(path);
     
     return Results.Ok(files);
-}); 
+});
+
+//scan and update db
+app.MapPost("/scan", (DatabaseConnection db) =>
+{
+    var path = "home/notifyserver/media/music/complete";
+    
+    var files = Directory.GetFiles(path);
+
+    foreach (var file in files)
+    {
+        
+    }
+});
 
 app.Run();
 
