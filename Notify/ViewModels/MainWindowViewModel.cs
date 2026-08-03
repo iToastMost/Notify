@@ -52,9 +52,11 @@ public partial class MainWindowViewModel : ViewModelBase
         }
     }
 
-    public MainWindowViewModel(DatabaseConnection db)
+    //Change back if needed. This starts app with database context
+    //public MainWindowViewModel(DatabaseConnection db)
+    public MainWindowViewModel()
     {
-        _dataBase = db;
+        //_dataBase = db;
         MediaPlayer = new MediaPlayer(_libVlc);
         SelectedIdx = -1;
     }

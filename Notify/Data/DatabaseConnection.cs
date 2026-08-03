@@ -11,7 +11,7 @@ namespace Notify.Data;
 
 public class DatabaseConnection
 {
-    private readonly string _connectionString = "Data Source=C:\\Users\\Chevr\\RiderProjects\\Notify\\Notify\\bin\\Debug\\net9.0\\music.db";
+    private readonly string _connectionString = "Data Source=home/notifyserver/notifyapp/data/music.db";
     private SqliteConnection CreateDatabaseConnection()
     {
         return new SqliteConnection(_connectionString);

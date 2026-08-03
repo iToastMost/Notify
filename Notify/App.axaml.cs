@@ -21,11 +21,13 @@ public partial class App : Application
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            var db = new DatabaseConnection();
+            //var db = new DatabaseConnection();
             
             desktop.MainWindow = new MainWindow
             {
-                DataContext = new MainWindowViewModel(db),
+                //Change back if needed. Used to pass db contxt to main app
+                DataContext = new MainWindowViewModel(),
+                //DataContext = new MainWindowViewModel(db),
             };
         }
 

@@ -1,3 +1,4 @@
+using Avalonia.Media.Imaging;
 using Notify;
 using Notify.Classes;
 using Notify.Data;
@@ -73,7 +74,30 @@ app.MapPost("/scan", (DatabaseConnection db) =>
 
     foreach (var file in files)
     {
-        
+        var tags = TagLib.File.Create(file);
+
+        Bitmap? albumArt = null;
+        byte[]? artistArt = null;
+        byte[]? albumCover = null;
+        var timeSpan = tags.Properties.Duration;
+        var formattedTimeSpan = timeSpan.ToString(@"mm\:ss");
+        if (tags.Tag.Pictures.Length > 0)
+        {
+            var pic = tags.Tag.Pictures[0];
+                        
+            using var stream = new MemoryStream(pic.Data.Data);
+
+            albumArt = new  Bitmap(stream);
+                        
+            albumCover = pic.Data.Data;
+        }
+                    
+        Artist artist = new Artist(tags.Tag.FirstPerformer, artistArt, tags.Tag.FirstGenre);
+        artist.ArtistId = db.AddArtist(artist);
+        Album album = new Album(tags.Tag.Album, tags.Tag.FirstPerformer, albumCover, artist.ArtistId);
+        album.AlbumId = db.AddAlbum(album);
+        Song song = new Song(file,tags.Tag.Title, tags.Tag.Album, tags.Tag.FirstPerformer, (int)tags.Properties.Duration.TotalSeconds, albumCover, artist.ArtistId, album.AlbumId);
+        db.AddSong(song);
     }
 });
 
