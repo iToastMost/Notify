@@ -51,24 +51,23 @@ app.MapGet("/searchSong/{songName}", (string songName, DatabaseConnection db) =>
     return TypedResults.Ok(song);
 });
 
-app.MapGet("/music", (DatabaseConnection db) =>
+app.MapGet("/search", (DatabaseConnection db) =>
 {
-    return db.GetSongs();
+    //return db.GetSongs();
+    Console.WriteLine("Returning the database!!");
+    
+    return TypedResults.Ok(db);
 });
 
-app.MapGet("/", () =>
-{
-    var path = "home/notifyserver/media/music/complete";
-    
-    var files = Directory.GetFiles(path);
-    
-    return Results.Ok(files);
-});
+ 
 
 //scan and update db
 app.MapPost("/scan", (DatabaseConnection db) =>
 {
-    var path = "home/notifyserver/media/music/complete";
+    var path = Path.GetFullPath("/home/notifyserver/media/music");
+    
+    Console.WriteLine($"SCAN PATH: [{path}]");
+    Console.WriteLine($"FULL PATH: [{Path.GetFullPath(path)}]");
     
     var files = Directory.GetFiles(path);
 

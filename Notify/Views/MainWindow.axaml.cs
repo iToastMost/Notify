@@ -33,7 +33,7 @@ public partial class MainWindow : Window
         
         if (DataContext is MainWindowViewModel vm)
         {
-            await vm.LoadFolderAsync(StorageProvider);
+            //await vm.LoadFolderAsync(StorageProvider);
         }
     }
     private void ItemSelected(object? sender, SelectionChangedEventArgs e)

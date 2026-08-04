@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
@@ -11,16 +12,20 @@ namespace Notify.Data;
 
 public class DatabaseConnection
 {
-    private readonly string _connectionString = "Data Source=home/notifyserver/notifyapp/data/music.db";
-    private SqliteConnection CreateDatabaseConnection()
-    {
-        return new SqliteConnection(_connectionString);
-    }
-
+    private readonly string _connectionString;
     public DatabaseConnection()
     {
+        var dbDirectory = Path.Combine(AppContext.BaseDirectory, "data");
+        Directory.CreateDirectory(dbDirectory);
+        
+        var dbPath = Path.Combine(dbDirectory, "music.db");
+        _connectionString = $"Data Source={dbPath}";
+        
+        Console.WriteLine($"Data base {dbPath}");
+        
         var sqliteConnection = CreateDatabaseConnection();
-        Console.WriteLine(_connectionString);
+        sqliteConnection.Open();
+        
         using (sqliteConnection)
         {
             sqliteConnection.Execute
@@ -57,6 +62,11 @@ public class DatabaseConnection
                 );
             ");
         }
+    }
+    
+    private SqliteConnection CreateDatabaseConnection()
+    {
+        return new SqliteConnection(_connectionString);
     }
 
     public IEnumerable<Song> GetSongs()

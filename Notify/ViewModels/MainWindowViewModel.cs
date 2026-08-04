@@ -82,12 +82,10 @@ public partial class MainWindowViewModel : ViewModelBase
     {
         try
         {
-            _httpClient.GetAsync(_url + "/scan");
-            // var songs = await _httpClient.GetFromJsonAsync<List<Song>>(_url + "/searchSong/" + searchBoxText);
-            // foreach (var song in songs)
-            // {
-            //     Console.WriteLine(song.SongName);
-            // }
+            var response = await _httpClient.PostAsync(_url + "/scan", null);
+
+            Console.WriteLine($"Status: {response.StatusCode}");
+            Console.WriteLine(await response.Content.ReadAsStringAsync());
         }
         catch (HttpRequestException e)
         {
@@ -124,6 +122,9 @@ public partial class MainWindowViewModel : ViewModelBase
     [RelayCommand]
     private void SearchClicked()
     {
+        var db = _httpClient.GetAsync(_url + "/search");
+        Console.WriteLine(db.Result);
+
         var songs = _dataBase.SearchSong(searchBoxText);
         var albums = _dataBase.SearchAlbum(searchBoxText);
         var artists = _dataBase.SearchArtist(searchBoxText);
@@ -135,7 +136,7 @@ public partial class MainWindowViewModel : ViewModelBase
             Console.WriteLine("Song found: " +song.SongName + ", Song ID: " + song.SongId);
             Items.Add(song);
         }
-
+        
         foreach (var album in albums)
         {
             Console.WriteLine("Album found: " + album.AlbumName + ", Album ID: " + album.AlbumId);
@@ -145,7 +146,7 @@ public partial class MainWindowViewModel : ViewModelBase
                 Items.Add(song);
             }
         }
-
+        
         foreach (var artist in artists)
         {
             Console.WriteLine("Artist found: " + artist.ArtistName + ", Artist ID: " + artist.ArtistId);
