@@ -82,11 +82,12 @@ public partial class MainWindowViewModel : ViewModelBase
     {
         try
         {
-            var songs = await _httpClient.GetFromJsonAsync<List<Song>>(_url + "/searchSong/" + searchBoxText);
-            foreach (var song in songs)
-            {
-                Console.WriteLine(song.SongName);
-            }
+            _httpClient.GetAsync(_url + "/scan");
+            // var songs = await _httpClient.GetFromJsonAsync<List<Song>>(_url + "/searchSong/" + searchBoxText);
+            // foreach (var song in songs)
+            // {
+            //     Console.WriteLine(song.SongName);
+            // }
         }
         catch (HttpRequestException e)
         {
